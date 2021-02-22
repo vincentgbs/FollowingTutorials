@@ -1,7 +1,7 @@
 #!/bin/bash
 ### Mac script
 
-COUNTER=20
+COUNTER=15
 until [  $COUNTER -lt 10 ]; do
     # add a line to the test file
     echo "adding a line" >> log.txt
