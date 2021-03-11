@@ -1,6 +1,6 @@
+from datetime import datetime
 from app import db
 
-# db.create_all()
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -8,3 +8,7 @@ class Task(db.Model):
 
     def __repr__(self):
         return f'{self.title} created on {self.date}'
+
+### Create the database in terminal
+# from models import Task
+# db.create_all()
