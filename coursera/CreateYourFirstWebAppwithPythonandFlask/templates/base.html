@@ -1,8 +1,8 @@
 <h1>Title of website</h1>
 <hr>
 <ul>
-    <li><a href="#">Home Page</a></li>
-    <li><a href="/about">About Page</a></li>
+    <li><a href="{{ url_for('index') }}">Tasks</a></li>
+    <li><a href="{{ url_for('add') }}">Add New</a></li>
 </ul>
 
 {% block main %}
