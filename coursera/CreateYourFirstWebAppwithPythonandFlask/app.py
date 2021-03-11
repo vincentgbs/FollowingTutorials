@@ -1,16 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask
 
 
 app = Flash(__name__)
+app.config['SECRET_KEY'] = 'random_string'
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html', current_title='Custom Title'
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
+# import routes AFTER instantiating app
+from routes import *
 
 if __name__ == '__main__':
     app.run(debug=True)
