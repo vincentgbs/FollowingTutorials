@@ -1,3 +1,4 @@
 # Readme
 
-The automation of totally random tasks
+* The automation random tasks
+* Repo for tutorials that I go through for faster reference
