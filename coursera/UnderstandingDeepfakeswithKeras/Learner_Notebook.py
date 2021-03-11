@@ -24,3 +24,27 @@ x = np.concatenate([x_train, x_test], axis=0)
 
 
 tfutils.datasets.mnist.plot_ten_random_examples(plt, x, np.zeros((x.shape[0], 1))).show()
+
+
+
+discriminator = Sequential([
+    Conv2D(64, 3, strides=2, input_shape(28, 28, 1)),
+    LeakyReLU(),
+    BatchNormalization(),
+
+    Conv2D(128, 5, strides=2),
+    LeakyReLU(),
+    BatchNormalization(),
+
+    Conv2D(256, 5, strides=2),
+    LeakyReLU(),
+    BatchNormalization(),
+
+    Flatten(),
+    Dense(1, activation='sigmoid')
+])
+
+opt = tf.keras.optimizers.Adam(lr=2e-4, beta_1=0.5)
+
+discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+discriminator.summary()
