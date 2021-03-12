@@ -12,11 +12,11 @@ from tensorflow.keras.layers import Conv2DTranspose, Reshape, LeakyReLU
 from tensorflow.keras.models import Model, Sequential
 from PIL import Image
 
-print('TensorFlow version:', tf.__version__)"
+print('TensorFlow version:', tf.__version__)
 
 
 
-"(x_train, y_train), (x_test, y_test) = tfutils.datasets.mnist.load_data(one_hot=False)
+(x_train, y_train), (x_test, y_test) = tfutils.datasets.mnist.load_data(one_hot=False)
 x_train = tfutils.datasets.mnist.load_subset([0], x_train, y_train)
 x_test = tfutils.datasets.mnist.load_subset([0], x_test, y_test)
 x = np.concatenate([x_train, x_test], axis=0)
@@ -47,7 +47,7 @@ discriminator = Sequential([
 opt = tf.keras.optimizers.Adam(lr=2e-4, beta_1=0.5)
 
 discriminator.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
-discriminator.summary()"
+discriminator.summary()
 
 
 
@@ -93,4 +93,48 @@ gan = Model(
 
 discriminator.trainable = False
 gan.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
-gan.summary()"
+gan.summary()
+
+
+
+epochs = 25
+batch_size = 128
+steps_per_epoch = int(2 * x.shape[0]/batch_size)
+
+print('Steps per epoch=', steps_per_epoch)
+
+dp = tfutils.plotting.DynamicPlot(plt, 5, 5, (8, 8))
+
+for e in range(0, epochs):
+
+    dp.start_of_epoch(e)
+
+    for step in range(0, steps_per_epoch):
+        true_examples = x[int(batch_size/2)*step: int(batch_size/2)*(step + 1)]
+        true_examples = np.reshape(true_examples, (true_examples.shape[0], 28, 28, 1))
+
+        noise = np.random.randn(int(batch_size/2), noise_dim)
+        generated_examples = generator.predict(noise)
+
+        x_batch = np.concatenate([generated_examples, true_examples], axis=0)
+        y_batch = np.array([0] * int(batch_size/2) + [1] * int(batch_size/2))
+
+        indices = np.random.choice(range(batch_size), batch_size, replace=False)
+        x_batch = x_batch[indices]
+        y_batch = y_batch[indices]
+
+        # train the discriminator
+        discriminator.trainable = True
+        discriminator.train_on_batch(x_batch, y_batch)
+        discriminator.trainable = False
+
+        # train the generator
+        loss, _ = gan.train_on_batch(noise, np.ones((int(batch_size/2), 1)))
+
+        _, acc = discriminator.evaluate(x_batch, y_batch, verbose=False)
+
+    noise = np.random.randn(1, noise_dim)
+    generated_example = generator.predict(noise)[0]
+
+    dp.end_of_epoch(np.reshape(generated_example, (28, 28)), 'binary',
+                   'DiscAcc:{:.2f}'.format(acc), 'GANLoss:{:.2f}'.format(loss))
