@@ -79,3 +79,18 @@ gen_image = generator.predict(noise)[0]
 plt.figure()
 plt.imshow(np.reshape(gen_image, (28, 28)), cmap='binary')
 plt.show()
+
+
+
+input_layer = tf.keras.layers.Input(shape=(noise_dim,))
+gen_out = generator(input_layer)
+disc_out = discriminator(gen_out)
+
+gan = Model(
+    input_layer,
+    disc_out
+)
+
+discriminator.trainable = False
+gan.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+gan.summary()"
