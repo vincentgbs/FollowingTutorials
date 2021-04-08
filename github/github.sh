@@ -15,3 +15,5 @@ until [  $COUNTER -lt 1 ]; do
 
     let COUNTER-=1
 done
+
+git push origin master
