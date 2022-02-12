@@ -6,7 +6,7 @@ last=$(tail -n 1 log.txt)
 
 if [ "$today" = "$last" ]
 then
-    echo "Already completed"
+    echo "Already ran today"
 else
     echo "Running Github script"
     COUNTER=5
