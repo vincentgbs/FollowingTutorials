@@ -28,6 +28,8 @@ else
     sed -i '' -e '$ d' log.txt
     # add the last run date to the file
     echo $today >> log.txt
+    git add .
+    git commit -m "Updating date"
 
     git push origin master
 fi
