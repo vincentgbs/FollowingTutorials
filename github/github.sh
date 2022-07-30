@@ -1,6 +1,10 @@
 #!/bin/bash
 ### Mac script
 
+# git fetch --all
+# git reset --hard origin/master
+git pull
+
 today=$(date '+%Y-%m-%d')
 last=$(tail -n 1 log.txt)
 
