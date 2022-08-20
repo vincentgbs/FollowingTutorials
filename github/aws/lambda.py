@@ -1,7 +1,8 @@
-## Setup Notes:
+## CFT Setup Notes:
 ## Must add Lambda Layer with Git https://github.com/lambci/git-lambda-layer
 ## Must create IAM role with SSMReadOnlyAccess
 ## Must create Github Personal Access Token and add it to Parameter Store
+## https://github.com/settings/tokens/new
 
 import boto3
 import subprocess
