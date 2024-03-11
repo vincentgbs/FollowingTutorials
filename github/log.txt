@@ -1,3 +1,2 @@
 Most software developers work in private repositories all day, so a simple count of Github pushes is not a great metric.
 2024-03-10
-adding a line
